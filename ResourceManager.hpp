@@ -7,7 +7,10 @@ class ResourceManager
     public:
         ResourceManager() : resource_{} {}//lista inicjalizacyjna + konstruktor domyslny
 
-        ResourceManager(const ResourceManager& resource_copy) : resource_{resource_copy.resource_} {}//konstruktor kopiujacy
+        ResourceManager(const ResourceManager& resource_copy) : resource_{resource_copy.resource_} 
+        {
+            
+        }//konstruktor kopiujacy
 
         ResourceManager& operator=(const ResourceManager& resource_operator) 
         {
@@ -18,6 +21,17 @@ class ResourceManager
 
             resource_ = resource_operator.resource_;
 
+            return *this;
+        }
+
+        ResourceManager(ResourceManager&& resource_move) : resource_(std::move(resource_move.resource_)) {}
+        ResourceManager& operator=(ResourceManager&& resource_move) 
+        {
+            if (this == &resource_move) {
+                return *this; // Unikamy przypisania do samego siebie
+            }
+
+            resource_ = std::move(resource_move.resource_);
             return *this;
         }
 
