@@ -9,7 +9,11 @@ class ResourceManager
 
         ResourceManager(const ResourceManager& resource_copy) : resource_{resource_copy.resource_} 
         {
-            
+            /*for(int i=0; i < dlugosc; i++)
+            {
+                tablica[i] = vector.tablica[i];
+            }*///tu trzeba cos takiego zrobic ale nie ma dostepu do elementow Resource
+            //A teraz jak kopiuje to przez te randy pewnie jakies smieci wlatuja
         }//konstruktor kopiujacy
 
         ResourceManager& operator=(const ResourceManager& resource_operator) 
@@ -20,22 +24,23 @@ class ResourceManager
             }
 
             resource_ = resource_operator.resource_;
+            /*
+        // Zwalniamy istniejące zasoby ALE NIE MAMY DOSTEPU DO TEJ TABLICY........
+        delete[] tablica;
+
+        // NOWA TABLICE STWORZYC TRZEBA
+        tablica = new double[dlugosc];
+
+        // KI wrzucic stare wartosci ALE NIE MA DOSTEPU DO TEJ TABLICY
+        for (int i = 0; i < dlugosc; i++) {
+            tablica[i] = vector.tablica[i];
+        }
+            */
 
             return *this;
         }
 
-        ResourceManager(ResourceManager&& resource_move) : resource_(std::move(resource_move.resource_)) {}
-        ResourceManager& operator=(ResourceManager&& resource_move) 
-        {
-            if (this == &resource_move) {
-                return *this; // Unikamy przypisania do samego siebie
-            }
-
-            resource_ = std::move(resource_move.resource_);
-            return *this;
-        }
-
-        ~ResourceManager() {}//Destruktor
+        ~ResourceManager() {/*TU POWINNA BYC NISZCZONA TABLICA ALE NIE MA DO NIEJ DOSTEPU*/}//Destruktor
 
         double get() {return resource_.get();}//metoda double get zwracajaca wynik z resource
 
