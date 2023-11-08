@@ -5,49 +5,32 @@
 class ResourceManager
 {
     public:
-        ResourceManager() : resource_{} {}//lista inicjalizacyjna + konstruktor domyslny
-//resource_{resource_copy.resource_} 
+        ResourceManager() 
+            : resource_{new Resource()} //alokacja pamieci klasy Resource() o wymiarach Resource() i przypisanie wskaznika na nia do pola resource_
+        {}  //lista inicjalizacyjna + konstruktor domyslny
 
-        ResourceManager(const ResourceManager& resource_copy) : size_{resource_copy.size_}, get_index_{resource_copy.get_index_}
+        ResourceManager(const ResourceManager& resource_copy)
         {
-            /*for(int i=0; i < dlugosc; i++)
-            {
-                tablica[i] = vector.tablica[i];
-            }*///tu trzeba cos takiego zrobic ale nie ma dostepu do elementow Resource
-            //A teraz jak kopiuje to przez te randy pewnie jakies smieci wlatuja
+           //resource_ = Resource(*resource_copy.resource_); <- statyczny konstruktor
+           resource_ = new Resource(*resource_copy.resource_);// kopiujesz stara utworzona zawartosc resource biorac pod uwage wskaznik
         }//konstruktor kopiujacy
 
         ResourceManager& operator=(const ResourceManager& resource_operator) 
         {
-            if (this == &resource_operator) 
-            {
-                return *this; // Unikamy przypisania do samego siebie  
-            }
+            delete resource_; //Wyrzucenie zawartosci resource
 
-            resource_ = resource_operator.resource_;
-            /*
-        // Zwalniamy istniejące zasoby ALE NIE MAMY DOSTEPU DO TEJ TABLICY........
-        delete[] tablica;
-
-        // NOWA TABLICE STWORZYC TRZEBA
-        tablica = new double[dlugosc];
-
-        // KI wrzucic stare wartosci ALE NIE MA DOSTEPU DO TEJ TABLICY
-        for (int i = 0; i < dlugosc; i++) {
-            tablica[i] = vector.tablica[i];
-        }
-            */
+            resource_ = new Resource(*resource_operator.resource_); //skopiowanie starej zawartosci resource
 
             return *this;
         }
 
-        ~ResourceManager() {/*TU POWINNA BYC NISZCZONA TABLICA ALE NIE MA DO NIEJ DOSTEPU*/}//Destruktor
+        ~ResourceManager() {delete resource_;}//Destruktor
 
-        double get() {return resource_.get();}//metoda double get zwracajaca wynik z resource
+        double get() {return resource_->get();}//resource_->get()    rownowazne jest (*resource_).get()
 
     private:
-        Resource resource_;//W ten sposob resource manager staje sie wlascicielem resource
-        int get_index_ = resource_.get_index;
-        int size_ = resource_.size;
+        Resource *resource_;//W ten sposob resource manager staje sie wlascicielem resource
+        //poprzez wskaznik zeby nie wywolac tego calego gnoja duzego
+
 
 };
