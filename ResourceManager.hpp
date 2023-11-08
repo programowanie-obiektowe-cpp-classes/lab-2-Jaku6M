@@ -6,8 +6,9 @@ class ResourceManager
 {
     public:
         ResourceManager() : resource_{} {}//lista inicjalizacyjna + konstruktor domyslny
+//resource_{resource_copy.resource_} 
 
-        ResourceManager(const ResourceManager& resource_copy) : resource_{resource_copy.resource_} 
+        ResourceManager(const ResourceManager& resource_copy) : size_{resource_copy.size_}, get_index_{resource_copy.get_index_}
         {
             /*for(int i=0; i < dlugosc; i++)
             {
@@ -20,7 +21,7 @@ class ResourceManager
         {
             if (this == &resource_operator) 
             {
-                return *this; // Unikamy przypisania do samego siebie czyli 
+                return *this; // Unikamy przypisania do samego siebie  
             }
 
             resource_ = resource_operator.resource_;
@@ -46,4 +47,7 @@ class ResourceManager
 
     private:
         Resource resource_;//W ten sposob resource manager staje sie wlascicielem resource
+        int get_index_ = resource_.get_index;
+        int size_ = resource_.size;
+
 };
